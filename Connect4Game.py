@@ -6,6 +6,8 @@
 
 # Represents the state of the Connect4 game. It is the model in the model-view-controller pattern.
 
+import config
+
 class Connect4Game:
     playerToMoveNum = None    # 0 or 1 for first and second player
     board = None  # 2D array to represent the board
@@ -14,16 +16,16 @@ class Connect4Game:
     # Initialize helper function goes here, once computer player is implemented
 
     def __init__(self, playerNum, thePlayers):
-        initBoard = [[] for row in range(ROWS)]
+        initBoard = [[] for row in range(config.ROWS)]
         # loop through 2D array elements and place EMPTY character
-        for i in range(0, ROWS):
-            for j in range(0, COLS):
-                initBoard[i].append(EMPTY)
+        for i in range(0, config.ROWS):
+            for j in range(0, config.COLS):
+                initBoard[i].append(config.EMPTY)
         
         # construct a board
-        self.board = [[] for row in range(ROWS)]
-        for i in range(0, ROWS):
-            for j in range(0, COLS):
+        self.board = [[] for row in range(config.ROWS)]
+        for i in range(0, config.ROWS):
+            for j in range(0, config.COLS):
                 self.board[i].append(initBoard[i][j])          
 
         self.playerToMoveNum = playerNum
@@ -32,7 +34,7 @@ class Connect4Game:
 
     def getBoard(self):
         """
-        Getter method for the 2D array of the board. The first [] index represents rows
+        Getter method for the 2D array of the board. The first [] index represents config.ROWS
         The second [] index represents columns
         """
         return self.board
@@ -59,7 +61,7 @@ class Connect4Game:
         """
         Method to check whether an inputted column number is a valid move
         """
-        if((col >= 0 and col < COLS) and (self.board[ROWS - 1][col] == EMPTY)):
+        if((col >= 0 and col < config.COLS) and (self.board[config.ROWS - 1][col] == config.EMPTY)):
             return True
         else:
             print("Not a valid move")
@@ -70,10 +72,10 @@ class Connect4Game:
         Method that places a checker in the right position according to gravity
         and empty spots
         """
-        currChecker = CHECKERS[self.playerToMoveNum] # uses the current player number to determine the correct piece
+        currChecker = config.CHECKERS[self.playerToMoveNum] # uses the current player number to determine the correct piece
         if(self.isValidMove(col)): # confirm the column is available
-            for row in range(0, ROWS): # loop through each row in the column
-                if(self.board[row][col] == EMPTY): # add the checker if the space is empty
+            for row in range(0, config.ROWS): # loop through each row in the column
+                if(self.board[row][col] == config.EMPTY): # add the checker if the space is empty
                     self.board[row][col] = currChecker 
                     self.playerToMoveNum = 1 - self.playerToMoveNum   # Switch player 
                     break
@@ -82,8 +84,8 @@ class Connect4Game:
         """
         Method to check whether the entire board is full
         """
-        for col in range(0, COLS):
-            if(self.board[ROWS - 1][col] == EMPTY):
+        for col in range(0, config.COLS):
+            if(self.board[config.ROWS - 1][col] == config.EMPTY):
                 return False
         return True
 
@@ -95,11 +97,11 @@ class Connect4Game:
         and diagonally from top left to bottom right, and check for four checkers in a row
         loop through each element in the board and check for matching checkers horizontally
         """
-        currChecker = CHECKERS[1 - self.playerToMoveNum] # uses the current player number to determine the correct piece
+        currChecker = config.CHECKERS[1 - self.playerToMoveNum] # uses the current player number to determine the correct piece
         
-        for r in range(0, ROWS):
+        for r in range(0, config.ROWS):
             count = 0
-            for c in range(0, COLS):
+            for c in range(0, config.COLS):
                 if(self.board[r][c] == currChecker): # if the character matches add to the count
                     count+=1
                     if (count == 4):
@@ -108,9 +110,9 @@ class Connect4Game:
                     count = 0
 
         # loop through each element in the board and check for matching checkers vertically
-        for c in range(0, COLS):
+        for c in range(0, config.COLS):
             count = 0;
-            for r in range(0, ROWS):
+            for r in range(0, config.ROWS):
                 if(self.board[r][c] == currChecker): # if the character matches add to the count
                     count+=1
                     if(count == 4):
@@ -119,11 +121,11 @@ class Connect4Game:
                     count = 0
 
     # loop through possible elements in the board and check for matching checkers diagonally from bottom left to top right
-        for c in range(0, COLS):
-            for r in range(0, ROWS):
+        for c in range(0, config.COLS):
+            for r in range(0, config.ROWS):
                 count = 0
                 for delta in range(0, 4): # extra for loop to check elements diagonally
-                    if (((r + delta) >= ROWS or ((c + delta)) >= COLS)):
+                    if (((r + delta) >= config.ROWS or ((c + delta)) >= config.COLS)):
                         #print("out of bounds at row " + str(r + delta) + ", column " + str(c + delta))
                         count = 0 # break the count if it's out of bounds
                         break
@@ -138,11 +140,11 @@ class Connect4Game:
                         break
             
     # loop through possible elements in the board and check for matching checkers diagonally from top left to bottom left
-        for c in range(0, COLS):
-            for r in range(0, ROWS):
+        for c in range(0, config.COLS):
+            for r in range(0, config.ROWS):
                 count = 0
                 for delta in range(-3, 1): # extra for loop to check elements diagonally
-                    if(((r + delta) < 0 or ((c - delta)) >= COLS)):
+                    if(((r + delta) < 0 or ((c - delta)) >= config.COLS)):
                         count = 0    # break the count if it's out of bounds
                         break
                     elif(self.board[r + delta][c - delta] == currChecker): # if the character matches add to the count
@@ -167,18 +169,18 @@ class Connect4Game:
         total = 0 # variable to store the total value of a board setup
         value = 0 # variable to store the temporary value of a potential 4-in-a-row
         
-        otherChecker = CHECKERS[self.playerToMoveNum] # the checker we don't want to find
-        currChecker = CHECKERS[1 - self.playerToMoveNum] # the checker we want to find
+        otherChecker = config.CHECKERS[self.playerToMoveNum] # the checker we don't want to find
+        currChecker = config.CHECKERS[1 - self.playerToMoveNum] # the checker we want to find
         
-        # check the board horizontally, loop through potential 4-in-a-rows and 
+        # check the board horizontally, loop through potential 4-in-a-config.ROWS and 
         # count how many matching checkers there are with the player whose turn it is
         # if there is one of the other player's checkers, the 4-in-a-row is invalid
         # print("Evaluating for: " + currChecker)
-        for row in range (0, ROWS):
-            for col in range(0,COLS):
+        for row in range (0, config.ROWS):
+            for col in range(0,config.COLS):
                 value = 0
                 for next in range(0,4):
-                    if(col + next >= COLS):
+                    if(col + next >= config.COLS):
                         break
                     if (self.board[row][col + next] != currChecker):
                         break
@@ -189,14 +191,14 @@ class Connect4Game:
                     #print("Adding to total from horizontal at (" + str(row) + ", " + str(col) + "): " + str(value**2))
 
         
-        # check the board vertically, loop through potential 4-in-a-rows and 
+        # check the board vertically, loop through potential 4-in-a-config.ROWS and 
         # count how many matching checkers there are with the player whose turn it is
         # if there is one of the other player's checkers, the 4-in-a-row is invalid
-        for col in range(0,COLS):
-            for row in range(0,ROWS):
+        for col in range(0,config.COLS):
+            for row in range(0,config.ROWS):
                 value = 0
                 for next in range(0,4):
-                    if(row + next >= ROWS):
+                    if(row + next >= config.ROWS):
                         break
                     if (self.board[row + next][col] != currChecker):
                         break
@@ -206,14 +208,14 @@ class Connect4Game:
                     total += (value**2) # if value is positive, add weighted value to total
                     #print("Adding to total from vertical at (" + str(row) + ", " + str(col) + "): " + str(value**2))
         
-        # check the board diagonally from bottom left to top right, loop through potential 4-in-a-rows and 
+        # check the board diagonally from bottom left to top right, loop through potential 4-in-a-config.ROWS and 
         # count how many matching checkers there are with the player whose turn it is
         #if there is one of the other player's checkers, the 4-in-a-row is invalid
-        for col in range(0,COLS-3):
-            for row in range(0,ROWS-3):
+        for col in range(0,config.COLS-3):
+            for row in range(0,config.ROWS-3):
                 value = 0
                 for next in range(0,4):
-                    if ((row + next) >= ROWS or (col + next) >= COLS):
+                    if ((row + next) >= config.ROWS or (col + next) >= config.COLS):
                         break
                     elif (self.board[row + next][col + next] != currChecker):
                         break
@@ -223,14 +225,14 @@ class Connect4Game:
                         total += (value**2) # if value is positive, add weighted value to total
                         #print("Adding to total from up diagonal at (" + str(row) + ", " + str(col) + "): " + str(value**2))
                 
-        #check the board diagonally from top left to bottom right, loop through potential 4-in-a-rows and 
+        #check the board diagonally from top left to bottom right, loop through potential 4-in-a-config.ROWS and 
         #count how many matching checkers there are with the player whose turn it is
         #if there is one of the other player's checkers, the 4-in-a-row is invalid
-        for col in range(0,COLS-3):
-            for row in range(ROWS-3, ROWS):
+        for col in range(0,config.COLS-3):
+            for row in range(config.ROWS-3, config.ROWS):
                 value = 0
                 for next in range(0,4):
-                    if ((row - next) < 0 or ((col + next)) >= COLS):
+                    if ((row - next) < 0 or ((col + next)) >= config.COLS):
                         break
                     elif (self.board[row - next][col + next] != currChecker):
                         break

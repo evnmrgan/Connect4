@@ -15,21 +15,32 @@
  
 # by Evan Morgan
 
-ROWS = 6;            # Board height
-COLS = 7;            # Board width
-EMPTY = '.';        # Indicate empty place
-CHECKER0 = 'X';     # Indicate the first player's checker
-CHECKER1 = 'O';     # Indicate second player's checker
+import Connect4ViewText as vw
+import HumanConnect4Player as hum
+from Connect4Game import Connect4Game
+
+ROWS = 6           # Board height
+COLS = 7           # Board width
+EMPTY = '.'        # Indicate empty place
+CHECKER0 = 'X'     # Indicate the first player's checker
+CHECKER1 = 'O'     # Indicate second player's checker
 CHECKERS = [CHECKER0, CHECKER1]
 
 class Connect4(object):
+
+    ROWS = 6           # Board height
+    COLS = 7           # Board width
+    EMPTY = '.'        # Indicate empty place
+    CHECKER0 = 'X'     # Indicate the first player's checker
+    CHECKER1 = 'O'     # Indicate second player's checker
+    CHECKERS = [CHECKER0, CHECKER1]
     
     def __init__(self):
         """
         Main method to run the Connect 4 game. Prompts user for player names to
         determine human or computer player. When game ends, winner is displayed.
         """
-        view = Connect4ViewText()
+        view = vw.Connect4ViewText()
 
         # Initialize the game 
         players = [self.makePlayer(view, "first"), self.makePlayer(view, "second")]
@@ -59,5 +70,5 @@ class Connect4(object):
             depth = view.getIntAnswer("How far should I look ahead? ")
             return ComputerConnect4Player(playerName, depth)
         else:
-            return HumanConnect4Player(playerName)
+            return hum.HumanConnect4Player(playerName)
 

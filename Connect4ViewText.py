@@ -7,6 +7,8 @@
 # A text implementation of the "view" part of a model-view-controller 
 # version of Connect 4. Used to test various runs and conditions 
 
+import config
+
 class Connect4ViewText():
 
     def __init__(self):
@@ -18,9 +20,9 @@ class Connect4ViewText():
         """
         board = state.getBoard()
         print()
-        print('   '.join(map(lambda row: str(row), range(COLS-1))))
-        for row in reversed(range(0,ROWS)):
-            print('   '.join(board[row][col] for col in range(ROWS)))
+        print('   '.join(map(lambda row: str(row), range(config.COLS-1))))
+        for row in reversed(range(0,config.ROWS)):
+            print('   '.join(board[row][col] for col in range(config.ROWS)))
                    
     def getUserMove(self, state):
         """
