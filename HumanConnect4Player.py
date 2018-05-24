@@ -6,6 +6,8 @@
 
 # Holds information about and interacts with a human player
 
+from Player import Player
+
 class HumanConnect4Player(Player):
 
     def __init__(self, name):
@@ -16,4 +18,3 @@ class HumanConnect4Player(Player):
         Gets a move for the user
         """
         return view.getUserMove(state)
-
